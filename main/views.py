@@ -1,6 +1,8 @@
 from time import sleep
-
+from django.contrib import messages, auth
 import requests
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
@@ -12,7 +14,7 @@ URL = f"https://api.telegram.org/bot{BOT_TOKEN}/"
 GET_PATH_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/getFile?file_id="
 SEND_MESSAGE_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?"
 
-
+@login_required(login_url='/login')
 def index(request):
     staff_complaint = Offer.objects.filter(~Q(user__role='deliverer'), rate__lt=3, user__isnull=False).count()
     staff_offer = Offer.objects.filter(~Q(user__role='deliverer'), rate__gte=3, user__isnull=False).count()
@@ -59,7 +61,7 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-
+@login_required(login_url='/login')
 def staff(request):
     if request.method == "POST":
         data = request.POST
@@ -87,7 +89,7 @@ def staff(request):
     }
     return render(request, 'staff.html', context)
 
-
+@login_required(login_url='/login')
 def update_staff(request, pk):
     if request.method == "POST":
         data = request.POST
@@ -111,12 +113,12 @@ def update_staff(request, pk):
     }
     return render(request, "update_staff.html", context)
 
-
+@login_required(login_url='/login')
 def delete_staff(request, pk):
     staff = Staff.objects.get(id=pk).delete()
     return redirect("/staff")
 
-
+@login_required(login_url='/login')
 def deliverer(request):
     if request.method == "POST":
         data = request.POST
@@ -150,7 +152,7 @@ def deliverer(request):
     }
     return render(request, 'deliverer.html', context)
 
-
+@login_required(login_url='/login')
 def update_deliverer(request, pk):
     if request.method == "POST":
         data = request.POST
@@ -178,7 +180,7 @@ def update_deliverer(request, pk):
     }
     return render(request, "update_deliverer.html", context)
 
-
+@login_required(login_url='/login')
 def update_product(request, pk):
     if request.method == "POST":
         name = request.POST['name']
@@ -201,7 +203,7 @@ def update_product(request, pk):
     }
     return render(request, "update_product.html", context)
 
-
+@login_required(login_url='/login')
 def offer(request):
     offers = Offer.objects.filter(rate__gt=3).order_by('-id')
     paginator = Paginator(offers, 10)
@@ -214,7 +216,7 @@ def offer(request):
     }
     return render(request, 'offers.html', context)
 
-
+@login_required(login_url='/login')
 def update_offer(request, pk):
     if request.method == "POST":
         desc = request.POST['desc']
@@ -230,7 +232,7 @@ def update_offer(request, pk):
     }
     return render(request, 'offers.html', context)
 
-
+@login_required(login_url='/login')
 def complaint(request):
     complaints = Offer.objects.filter(rate__lt=3).order_by('-id')
     paginator = Paginator(complaints, 10)
@@ -243,7 +245,7 @@ def complaint(request):
     }
     return render(request, 'complaint.html', context)
 
-
+@login_required(login_url='/login')
 def filter_complaint(request, id):
     complaints = Offer.objects.filter(rate__lt=3).order_by('-id')
     if id == 1:
@@ -258,7 +260,7 @@ def filter_complaint(request, id):
     }
     return render(request, 'complaint.html', context)
 
-
+@login_required(login_url='/login')
 def filter_offer(request, id):
     complaints = Offer.objects.filter(rate__lt=3).order_by('-id')
     if id == 1:
@@ -273,7 +275,7 @@ def filter_offer(request, id):
     }
     return render(request, 'complaint.html', context)
 
-
+@login_required(login_url='/login')
 def products(request):
     if request.method == "POST":
         name = request.POST['name']
@@ -301,12 +303,12 @@ def products(request):
     }
     return render(request, 'products.html', context=cotext)
 
-
+@login_required(login_url='/login')
 def delete_product(request, pk):
     product = Product.objects.get(id=pk).delete()
     return redirect("/products")
 
-
+@login_required(login_url='/login')
 def category(request):
     if request.method == "POST":
         name = request.POST['name']
@@ -320,7 +322,7 @@ def category(request):
     }
     return render(request, 'category.html', context=cotext)
 
-
+@login_required(login_url='/login')
 def poll(request):
     if request.method == "POST":
         data = request.POST
@@ -395,12 +397,12 @@ def poll(request):
     }
     return render(request, 'poll.html', context)
 
-
+@login_required(login_url='/login')
 def delete_poll(request, pk):
     poll = Poll.objects.get(id=pk).delete()
     return redirect("/poll")
 
-
+@login_required(login_url='/login')
 def ads(request):
     if request.method == "POST":
         desc = request.POST.get('desc', None)
@@ -423,7 +425,7 @@ def ads(request):
         redirect('/ads')
     return render(request, 'ads.html')
 
-
+@login_required(login_url='/login')
 def photos(request):
     photos = Photos.objects.all().last()
     if request.method == 'POST':
@@ -449,3 +451,29 @@ def photos(request):
     }
 
     return render(request, 'photos.html', context)
+
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            print("aa")
+            user = auth.authenticate(username=username, password=password)
+            print(user)
+            if user is not None:
+                auth.login(request, user)
+                return redirect('/')
+            else:
+                messages.info(request, "Login yoki parol xato!")
+                return redirect('/login')
+        except:
+            print("except")
+            messages.info(request, "Login yoki parol xato!")
+            return redirect('/login')
+    return render(request, "login.html")
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/login')

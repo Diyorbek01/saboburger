@@ -19,11 +19,14 @@ from django.conf.urls.static import static
 from django.urls import path, include
 
 from api.urls import router
+from main import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('api/', include(router.urls)),
+    path('logout/', views.logout_view, name="logout"),
+    path('login/', views.login, name="login"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
