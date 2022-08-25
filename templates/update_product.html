@@ -1,0 +1,79 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="mb-2 text-right">
+                <a href="{% url 'category' %}" type="button"
+                   class="btn btn-success btn-label waves-effect right waves-light rounded-pill"><i
+                        class="bx bx-plus label-icon align-middle rounded-pill fs-16 ms-2"></i> Bo'limlar
+                </a>
+            </div>
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Mahsulotlar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <form action="/update-product/{{ product.id }}" method="post" enctype="multipart/form-data"
+                                          class="row g-3">
+                                        {% csrf_token %}
+                                        <div class="col-md-12">
+                                            <label for="fullnameInput" class="form-label">Nomi</label>
+                                            <input type="text" class="form-control" id="fullnameInput"
+                                                   placeholder="Nomini kiriting" name="name" value="{{ product.name }}">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="inputState" class="form-label">Bo'lim</label>
+                                            <select id="inputState" class="form-select" data-choices
+                                                    data-choices-sorting="true" name="category">
+                                                <option selected>--Bo'limlardan birini tanlang--</option>
+                                                {% for category in categories %}
+                                                    <option value="{{ category.id }}"
+                                                            {% if product.category.id == category.id %}
+                                                            selected {% endif %}>{{ category.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div>
+                                                <p>
+                                                    <label for="formFile" class="form-label">Mahsulot rasmi</label>
+                                                    <input class="form-control" name="image" type="file"
+                                                           accept="image/*" id="file"
+                                                           onchange="loadFile(event)">
+                                                </p>
+                                                <p><img {% if product.image %} src="{{ product.image.url }} "{% endif %}
+                                                                               id="output" width="400"/></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit"
+                                                    class="btn btn-primary bg-gradient waves-effect waves-light">Saqlash
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block script %}
+        <script>
+            var loadFile = function (event) {
+                var image = document.getElementById('output');
+                image.src = URL.createObjectURL(event.target.files[0]);
+            };
+        </script>
+    {% endblock %}
+{% endblock %}

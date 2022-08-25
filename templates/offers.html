@@ -1,0 +1,152 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Takliflar ro'yxati</h4>
+                                <select class="form-select rounded-pill mb-3 w-25" aria-label="Default select example"
+                                        onchange="location = this.value;">
+                                    <option {% if role_id == 1 %}selected{% endif %} value="1">Barchasi</option>
+                                    <option {% if role_id == 2 %}selected{% endif %} value="2">Mahsulotlar</option>
+                                    <option {% if role_id == 3 %}selected{% endif %} value="3">Hodimlar</option>
+                                </select>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <div class="table-responsive table-card">
+                                        <table class="table align-middle table-nowrap mb-0">
+                                            <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Sana</th>
+                                                <th scope="col">Mijoz</th>
+                                                <th scope="col">Tel raqam</th>
+                                                <th scope="col">Bo'lim nomi</th>
+                                                <th scope="col">Hodim/Mahsulot nomi</th>
+                                                <th scope="col">Baho</th>
+                                                <th scope="col">Taklif</th>
+                                                <th scope="col">Admin izohi</th>
+                                                <th scope="col" style="width: 150px;">Amallar</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for offer in offers %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ offer.create_at }}</td>
+                                                    <td>{{ offer.tg_user.full_name }}</td>
+                                                    <td>{{ offer.tg_user.phone_number }}</td>
+                                                    {% if offer.product %}
+                                                        <td><span class="badge badge-soft-success">{{ offer.product.category.name }}</span></td>
+                                                        <td>{{ offer.product.name }}</td>
+                                                    {% else %}
+                                                        <td><span class="badge badge-soft-primary">{% if offer.user.role == "deliverer" %}Yetkazib
+                                                            beruvchi{% else %}
+                                                            {{ offer.user.role.capitalize }}{% endif %}</span></td>
+                                                        <td>{{ offer.user.full_name }}</td>
+                                                    {% endif %}
+                                                    <td>{{ offer.rate }}</td>
+                                                    <td>{{ offer.offer_text }}</td>
+                                                    <td>{% if offer.admin_description %}
+                                                        {{ offer.admin_description }}{% else %}-{% endif %}
+                                                    </td>
+                                                    <td>
+                                                        <!-- Varying Modal Content -->
+                                                        <div class="hstack gap-2 flex-wrap">
+                                                            <button type="button" class="btn btn-primary"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#varyingcontentModal{{ offer.id }}"
+                                                                    data-bs-whatever="@fat"><i
+                                                                    class=" ri-edit-2-line"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% for offer in offers %}
+                                                <div class="modal fade" id="varyingcontentModal{{ offer.id }}"
+                                                     tabindex="-1"
+                                                     aria-labelledby="varyingcontentModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="varyingcontentModalLabel">
+                                                                    Admin Izohi</h5>
+                                                                <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                            </div>
+                                                            <form action="/update-offer/{{ offer.id }}" method="post">
+                                                                {% csrf_token %}
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <label for="message-text"
+                                                                               class="col-form-label">Matn:</label>
+
+                                                                        <input class="form-control"
+                                                                               id="message-text"
+                                                                               name="desc"
+                                                                               value="{{ offer.admin_description.lstrip }}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-light"
+                                                                            data-bs-dismiss="modal">Yopish
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">
+                                                                        Saqlash
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <!-- Varying modal content -->
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    <nav aria-label="...">
+                                            <ul class="pagination">
+                                                {% if offers.has_previous %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="/offers/?page=1">Birinchi</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="/offers/?page={{ offers.previous_page_number }}"
+                                                           class="page-link">Dastlabki</a>
+                                                    </li>
+                                                {% endif %}
+
+                                                </li>
+                                                {% for n in total_pages %}
+                                                    <li class="page-item {% if offers.number == n %}active{% endif %}">
+                                                        <a class="page-link"
+                                                           href="/offers/?page={{ n }}">{{ n }}</a></li>
+                                                {% endfor %}
+                                                {% if offers.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="/offers/?page={{ offers.next_page_number }}">Keyingi</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,420 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0">Asosiy Statistika</h4>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+
+                    <div class="col-xxl-9 order-xxl-0 order-first">
+                        <div class="d-flex flex-column h-100">
+                            <div class="row h-100">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm flex-shrink-0">
+                                                        <span
+                                                                class="avatar-title bg-light text-primary rounded-circle fs-3">
+                                                            <i class="ri-checkbox-circle-line align-middle"></i>
+                                                        </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <p class="text-uppercase fw-semibold fs-12 text-muted mb-1">
+                                                        Kelib tushgan takliflar</p>
+                                                    <h4 class=" mb-0"><span class="counter-value"
+                                                                            data-target="{{ product_offer }}">0</span>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm flex-shrink-0">
+                                                        <span
+                                                                class="avatar-title bg-light text-primary rounded-circle fs-3">
+                                                            <i class="ri-user-follow-line align-middle"></i>
+                                                        </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <p class="text-uppercase fw-semibold fs-12 text-muted mb-1">
+                                                        Kelib tushgan takliflar</p>
+                                                    <h4 class=" mb-0"><span class="counter-value"
+                                                                            data-target="{{ staff_offer }}">0</span>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm flex-shrink-0">
+                                                        <span
+                                                                class="avatar-title bg-light text-primary rounded-circle fs-3">
+                                                            <i class="ri-truck-line align-middle"></i>
+                                                        </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <p class="text-uppercase fw-semibold fs-12 text-muted mb-1">
+                                                        Kelib tushgan takliflar</p>
+                                                    <h4 class=" mb-0"><span class="counter-value"
+                                                                            data-target="{{ deliverer_offer }}">0</span>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm flex-shrink-0">
+                                                        <span
+                                                                class="avatar-title bg-light text-danger rounded-circle fs-3">
+                                                            <i class=" ri-close-circle-line align-middle"></i>
+                                                        </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <p class="text-uppercase fw-semibold fs-12 text-muted mb-1">Kelib
+                                                        tushgan shikoyatlar</p>
+                                                    <h4 class=" mb-0"><span class="counter-value"
+                                                                            data-target="{{ product_complaint }}">0</span>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm flex-shrink-0">
+                                                        <span
+                                                                class="avatar-title bg-light text-danger rounded-circle fs-3">
+                                                            <i class="ri-user-unfollow-line align-middle"></i>
+                                                        </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <p class="text-uppercase fw-semibold fs-12 text-muted mb-1">Kelib
+                                                        tushgan shikoyatlar</p>
+                                                    <h4 class=" mb-0"><span class="counter-value"
+                                                                            data-target="{{ staff_complaint }}">0</span>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm flex-shrink-0">
+                                                        <span
+                                                                class="avatar-title bg-light text-danger rounded-circle fs-3">
+                                                            <i class="mdi mdi-truck-remove-outline align-middle"></i>
+                                                        </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <p class="text-uppercase fw-semibold fs-12 text-muted mb-1">Kelib
+                                                        tushgan shikoyatlar</p>
+                                                    <h4 class=" mb-0"><span class="counter-value"
+                                                                            data-target="{{ deliverer_complaint }}">0</span>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div><!-- end card body -->
+                                    </div><!-- end card -->
+                                </div><!-- end col -->
+                            </div><!-- end row -->
+
+                        </div>
+                    </div><!-- end col -->
+                </div><!-- end row -->
+
+                <div class="row">
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Mahsulot va Hodimlar</h4>
+
+                            </div><!-- end card header -->
+                            <div class="card-body pb-0">
+                                <div class="x_panel">
+                                    <div class="x_content">
+                                        <canvas id="mybarChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+
+
+
+
+                </div><!-- end row -->
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Eng ko'p taklif olgan bo'limlar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="table-responsive table-card">
+                                    <table class="table table-borderless table-hover table-nowrap align-middle mb-0">
+                                        <thead class="table-light">
+                                        <tr class="text-muted">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Mahsulot</th>
+                                            <th scope="col" style="width: 20%;">Soni</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for product in get_product_offer %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ product.product__name}}</td>
+                                            <td>{{ product.count}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody><!-- end tbody -->
+                                    </table><!-- end table -->
+                                </div><!-- end table responsive -->
+                            </div><!-- end card body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Eng ko'p shikoyat olgan bo'limlar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="table-responsive table-card">
+                                    <table class="table table-borderless table-hover table-nowrap align-middle mb-0">
+                                        <thead class="table-light">
+                                        <tr class="text-muted">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Mahsulot</th>
+                                            <th scope="col" style="width: 20%;">Soni</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for product in get_product_complaint %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ product.product__name}}</td>
+                                            <td>{{ product.count}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody><!-- end tbody -->
+                                    </table><!-- end table -->
+                                </div><!-- end table responsive -->
+                            </div><!-- end card body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Eng ko'p taklif olgan hodimlar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="table-responsive table-card">
+                                    <table class="table table-borderless table-hover table-nowrap align-middle mb-0">
+                                        <thead class="table-light">
+                                        <tr class="text-muted">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Hodim</th>
+                                            <th scope="col" style="width: 20%;">Soni</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for staff in get_staff_offer %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ staff.user__full_name}}</td>
+                                            <td>{{ staff.count}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody><!-- end tbody -->
+                                    </table><!-- end table -->
+                                </div><!-- end table responsive -->
+                            </div><!-- end card body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Eng ko'p shikoyat olgan hodimlar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="table-responsive table-card">
+                                    <table class="table table-borderless table-hover table-nowrap align-middle mb-0">
+                                        <thead class="table-light">
+                                        <tr class="text-muted">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Hodim</th>
+                                            <th scope="col" style="width: 20%;">Soni</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for staff in get_staff_complaint %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ staff.user__full_name}}</td>
+                                            <td>{{ staff.count}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody><!-- end tbody -->
+                                    </table><!-- end table -->
+                                </div><!-- end table responsive -->
+                            </div><!-- end card body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Eng ko'p taklif olgan eltuvchilar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="table-responsive table-card">
+                                    <table class="table table-borderless table-hover table-nowrap align-middle mb-0">
+                                        <thead class="table-light">
+                                        <tr class="text-muted">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Hodim</th>
+                                            <th scope="col" style="width: 20%;">Soni</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for staff in get_deliverer_offer %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ staff.user__full_name}}</td>
+                                            <td>{{ staff.count}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody><!-- end tbody -->
+                                    </table><!-- end table -->
+                                </div><!-- end table responsive -->
+                            </div><!-- end card body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Eng ko'p shikoyat olgan eltuvchilar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="table-responsive table-card">
+                                    <table class="table table-borderless table-hover table-nowrap align-middle mb-0">
+                                        <thead class="table-light">
+                                        <tr class="text-muted">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Hodim</th>
+                                            <th scope="col" style="width: 20%;">Soni</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for staff in get_deliverer_complaint %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ staff.user__full_name}}</td>
+                                            <td>{{ staff.count}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody><!-- end tbody -->
+                                    </table><!-- end table -->
+                                </div><!-- end table responsive -->
+                            </div><!-- end card body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+
+                </div><!-- end row -->
+
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+    </div>
+    <!-- end main content-->
+    {% block script %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+        <script>
+            var ctx = document.getElementById("mybarChart").getContext("2d");
+
+            var mybarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mahsulotlar', 'Hodimlar', 'Eltuvchilar'],
+                    datasets: [{
+                        label: 'Mahsulotlar',
+                        backgroundColor: "#000080",
+                        data: [{{total_product}}, 0, 0]
+                    }, {
+                        label: 'Hodimlar',
+                        backgroundColor: "#0ab39c",
+                        data: [0, {{total_staff}}, 0]
+                    }, {
+                        label: 'Eltuvchilar',
+                        backgroundColor: "#f7b84b",
+                        data: [0, 0, {{ total_deliverer }}]
+                    }]
+                },
+
+                options: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            fontColor: "#000080",
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });        </script>
+    {% endblock %}
+{% endblock %}

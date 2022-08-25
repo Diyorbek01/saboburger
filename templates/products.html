@@ -1,0 +1,153 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="mb-2 text-right">
+                <a href="{% url 'category' %}" type="button"
+                   class="btn btn-success btn-label waves-effect right waves-light rounded-pill"><i
+                        class="bx bx-plus label-icon align-middle rounded-pill fs-16 ms-2"></i> Bo'limlar
+                </a>
+            </div>
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Mahsulotlar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <form action="{% url 'products' %}" method="post" enctype="multipart/form-data" class="row g-3">
+                                        {% csrf_token %}
+                                        <div class="col-md-12">
+                                            <label for="fullnameInput" class="form-label">Nomi</label>
+                                            <input type="text" class="form-control" id="fullnameInput"
+                                                   placeholder="Nomini kiriting" name="name">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="inputState" class="form-label">Bo'lim</label>
+                                            <select id="inputState" class="form-select" data-choices
+                                                    data-choices-sorting="true" name="category">
+                                                <option selected>--Bo'limlardan birini tanlang--</option>
+                                                {% for category in categories %}
+                                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div>
+                                                <p>
+                                                    <label for="formFile" class="form-label">Mahsulot rasmi</label>
+                                                    <input class="form-control" name="image" type="file"
+                                                           accept="image/*" id="file"
+                                                           onchange="loadFile(event)">
+                                                </p>
+                                                <p><img id="output" width="400"/></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit"
+                                                    class="btn btn-primary bg-gradient waves-effect waves-light">Saqlash
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Mahsulotlar ro'yxati</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <div class="table-responsive table-card">
+                                        <table class="table align-middle table-nowrap mb-0">
+                                            <thead class="table-light">
+                                            <tr>
+
+                                                <th scope="col">#</th>
+                                                <th scope="col">Nomi</th>
+                                                <th scope="col">Bo'limi</th>
+                                                <th scope="col">Rasmi</th>
+                                                <th scope="col" style="width: 150px;">Amallar</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for product in products %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ product.name}}</td>
+                                                    <td>{{ product.category.name}}</td>
+                                                    {% if product.image %}
+                                                        <td><a href="{{ product.image.url }}">Ko'rish</a></td>
+                                                    {% else %}
+                                                        <td>Surat mavjud emas</td>
+                                                    {% endif %}
+                                                    <td>
+                                                        <a href="/update-product/{{ product.id }}"
+                                                           class="btn btn-success bg-gradient waves-effect waves-light"><i
+                                                                class=" ri-edit-2-line"></i>
+                                                        </a>
+                                                        <a href="/delete-product/{{ product.id }}"
+                                                           class="btn btn-danger bg-gradient waves-effect waves-light"
+                                                           onclick="return confirm('Siz rostdan ham o\'chirmoqchimisiz?')"
+                                                        ><i
+                                                                class=" ri-delete-bin-fill"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    <nav aria-label="...">
+                                            <ul class="pagination">
+                                                {% if products.has_previous %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="/products/?page=1">Birinchi</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="/products/?page={{ products.previous_page_number }}"
+                                                           class="page-link">Dastlabki</a>
+                                                    </li>
+                                                {% endif %}
+
+                                                </li>
+                                                {% for n in total_pages %}
+                                                    <li class="page-item {% if products.number == n %}active{% endif %}">
+                                                        <a class="page-link"
+                                                           href="/products/?page={{ n }}">{{ n }}</a></li>
+                                                {% endfor %}
+                                                {% if products.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="/products/?page={{ products.next_page_number }}">Keyingi</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block script %}
+        <script>
+            var loadFile = function (event) {
+                var image = document.getElementById('output');
+                image.src = URL.createObjectURL(event.target.files[0]);
+            };
+        </script>
+    {% endblock %}
+{% endblock %}

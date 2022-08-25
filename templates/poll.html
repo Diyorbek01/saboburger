@@ -1,0 +1,268 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">So'rovnoma qo'shish</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <form action="{% url 'poll' %}" method="post" enctype="multipart/form-data"
+                                          class="row g-3">
+                                        {% csrf_token %}
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <div class="col-md-12">
+                                                    <label for="fullnameInput" class="form-label">Savol matni</label>
+                                                    <input type="text" class="form-control" id="fullnameInput"
+                                                           placeholder="Savol matnini kiriting" name="question">
+                                                </div>
+                                            </li>
+                                            <ul style="list-style: none">
+                                                <li>
+                                                    <div class="col-md-12">
+                                                        <label for="fullnameInput" class="form-label">Javob matni
+                                                            1</label>
+                                                        <input type="text" class="form-control" id="fullnameInput"
+                                                               placeholder="Javob matnini kiriting" name="variant1">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-md-12">
+                                                        <label for="fullnameInput" class="form-label">Javob matni
+                                                            2</label>
+                                                        <input type="text" class="form-control" id="fullnameInput"
+                                                               placeholder="Javob matnini kiriting" name="variant2">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-md-12">
+                                                        <label for="fullnameInput" class="form-label">Javob matni
+                                                            3</label>
+                                                        <input type="text" class="form-control" id="fullnameInput"
+                                                               placeholder="Javob matnini kiriting" name="variant3">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-md-12">
+                                                        <label for="fullnameInput" class="form-label">Javob matni
+                                                            4</label>
+                                                        <input type="text" class="form-control" id="fullnameInput"
+                                                               placeholder="Javob matnini kiriting" name="variant4">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="col-md-12">
+                                                        <label for="fullnameInput" class="form-label  mt-2">Javob matni
+                                                            5</label>
+                                                        <input type="text" class="form-control" id="fullnameInput"
+                                                               placeholder="Javob matnini kiriting" name="variant5">
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+                                        </ul>
+                                        <div class="col-md-12">
+                                            <label for="CategoryInput" class="form-label">Bo'lim Tanlang</label>
+                                            <select id="CategoryInput" class="form-select mb-3"
+                                                    aria-label="Default select example" name="category">
+                                                <option selected>-- Bo'limlardan birini tanlang --</option>
+                                                <option value="ofitsiant">Ofitsiant</option>
+                                                <option value="boshqaruvchi">Boshqaruvchi</option>
+                                                <option value="kassir">Kassir</option>
+                                                <option value="deliverer">Yetkazib beruvchi</option>
+                                                {% for category in categories %}
+                                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                                {% endfor %}
+
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div>
+                                                <p>
+                                                    <label for="formFile" class="form-label">So'rovnoma uchun
+                                                        rasm</label>
+                                                    <input class="form-control" name="image" type="file"
+                                                           accept="image/*" id="file"
+                                                           onchange="loadFile(event)">
+                                                </p>
+                                                <p><img id="output" width="400"/></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit"
+                                                    class="btn btn-primary bg-gradient waves-effect waves-light">Saqlash
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Mavjud so'rovnomalar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <div class="table-responsive table-card">
+                                        <table class="table align-middle table-nowrap mb-0">
+                                            <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">So'rovnoma</th>
+                                                <th scope="col">Rasm</th>
+                                                <th scope="col">Bo'lim</th>
+                                                <th scope="col" style="width: 150px;">Amallar</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for poll in polls %}
+
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ poll.question }}</td>
+                                                    {% if poll.image %}
+                                                        <td><a href="{{ poll.image.url }}">Ko'rish</a></td>
+                                                    {% else %}
+                                                        <td>Surat mavjud emas</td>
+                                                    {% endif %}
+                                                    <td>
+                                                        {% if poll.category %}{{ poll.category }}{% else %}
+                                                            {{ poll.category_product.name }}{% endif %}</td>
+                                                    <td>
+                                                        <a href="/delete-poll/{{ poll.id }}"
+                                                           class="btn btn-danger bg-gradient waves-effect waves-light"
+                                                           onclick="return confirm('Siz rostdan ham o\'chirmoqchimisiz?')"
+                                                        ><i class=" ri-delete-bin-fill"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <nav aria-label="...">
+                                            <ul class="pagination">
+                                                {% if polls.has_previous %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="/poll/?page_poll=1">Birinchi</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="/poll/?page_poll={{ polls.previous_page_number }}"
+                                                           class="page-link">Dastlabki</a>
+                                                    </li>
+                                                {% endif %}
+
+                                                </li>
+                                                {% for n in total_pages_poll %}
+                                                    <li class="page-item {% if polls.number == n %}active{% endif %}">
+                                                        <a class="page-link"
+                                                           href="/poll/?page_poll={{ n }}">{{ n }}</a></li>
+                                                {% endfor %}
+                                                {% if polls.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="/poll/?page_poll={{ polls.next_page_number }}">Keyingi</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">So'rovnomalar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <div class="table-responsive table-card">
+                                        <table class="table align-middle table-nowrap mb-0">
+                                            <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Savol</th>
+                                                <th scope="col">Taklif</th>
+                                                <th scope="col">Foydalanuvchi</th>
+                                                <th scope="col">Bo'lim</th>
+                                                <th scope="col">Sana</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for result in poll_results %}
+
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ result.poll.question }}</td>
+                                                    <td>{{ result.variant.name }}</td>
+                                                    <td>{{ result.tg_user.full_name }}</td>
+
+                                                    <td>
+                                                        {% if result.poll.category %}
+                                                            {{ result.poll.category }}{% else %}
+                                                            {{ result.poll.category_product.name }}{% endif %}</td>
+                                                    <td>{{ result.create_at }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <nav aria-label="...">
+                                            <ul class="pagination">
+                                                {% if poll_results.has_previous %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="/poll/?page=1">Birinchi</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="/poll/?page={{ poll_results.previous_page_number }}"
+                                                           class="page-link">Dastlabki</a>
+                                                    </li>
+                                                {% endif %}
+
+                                                </li>
+                                                {% for n in total_pages %}
+                                                    <li class="page-item {% if poll_results.number == n %}active{% endif %}">
+                                                        <a class="page-link"
+                                                           href="/poll/?page={{ n }}">{{ n }}</a></li>
+                                                {% endfor %}
+                                                {% if poll_results.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="/poll/?page={{ poll_results.next_page_number }}">Keyingi</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block script %}
+        <script>
+            var loadFile = function (event) {
+                var image = document.getElementById('output');
+                image.src = URL.createObjectURL(event.target.files[0]);
+            };
+        </script>
+    {% endblock %}
+{% endblock %}

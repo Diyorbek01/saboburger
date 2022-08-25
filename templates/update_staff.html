@@ -1,0 +1,80 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Hodimlar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <form action="/update-staff/{{ staff.id }}" method="post" enctype="multipart/form-data"
+                                          class="row g-3">
+                                        {% csrf_token %}
+                                        <div class="col-md-12">
+                                            <label for="fullnameInput" class="form-label">Ism</label>
+                                            <input type="hidden" value="{{ staff.id }}" name="id">
+                                            <input type="text" name="full_name" value="{{ staff.full_name }}" required
+                                                   class="form-control"
+                                                   id="fullnameInput"
+                                                   placeholder="Enter your name">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="fullnameInput" class="form-label">Tel raqam</label>
+                                            <input type="text" value="{{ staff.phone_number }}" class="form-control"
+                                                   required name="phone_number"
+                                                   id="fullnameInput"
+                                                   placeholder="Telefon raqamingizni kiriting">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="CategoryInput" class="form-label">Bo'lim Tanlang</label>
+                                            <select id="CategoryInput" class="form-select mb-3" required name="role"
+                                                    aria-label="Default select example">
+                                                <option selected>Bo'lim tanlang</option>
+
+                                                <option value="ofitsiant" {% if staff.role == 'ofitsiant' %}
+                                                        selected {% endif %}>Ofitsiant
+                                                </option>
+                                                <option value="boshqaruvchi"{% if staff.role == 'boshqaruvchi' %}
+                                                        selected {% endif %}>Boshqaruvchi
+                                                </option>
+                                                <option value="kassir"{% if staff.role == 'kassir' %}
+                                                        selected {% endif %}>Kassir
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div>
+                                                <p>
+                                                    <label for="formFile" class="form-label">Hodim surati</label>
+                                                    <input class="form-control" name="avatar" type="file"
+                                                           accept="image/*" id="file"
+                                                           onchange="loadFile(event)">
+                                                </p>
+                                                <p><img src="{% if staff.avatar %}{{ staff.avatar.url }}{% endif %}"
+                                                        id="output" width="400"/></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit"
+                                                    class="btn btn-primary bg-gradient waves-effect waves-light">Saqlash
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

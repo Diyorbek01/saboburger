@@ -1,0 +1,155 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Hodimlar</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <form action="{% url 'staff' %}" method="post" enctype="multipart/form-data"
+                                          class="row g-3">
+                                        {% csrf_token %}
+                                        <div class="col-md-12">
+                                            <label for="fullnameInput" class="form-label">Ism</label>
+                                            <input type="text" name="full_name" required class="form-control"
+                                                   id="fullnameInput"
+                                                   placeholder="Enter your name">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="fullnameInput" class="form-label">Tel raqam</label>
+                                            <input type="text" class="form-control" required name="phone_number"
+                                                   id="fullnameInput"
+                                                   placeholder="Telefon raqamingizni kiriting">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="CategoryInput" class="form-label">Bo'lim Tanlang</label>
+                                            <select id="CategoryInput" class="form-select mb-3" required name="role"
+                                                    aria-label="Default select example">
+                                                <option selected>Bo'lim tanlang</option>
+                                                <option value="ofitsiant">Ofitsiant</option>
+                                                <option value="boshqaruvchi">Boshqaruvchi</option>
+                                                <option value="kassir">Kassir</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div>
+                                                <p>
+                                                    <label for="formFile" class="form-label">Hodim surati</label>
+                                                    <input class="form-control" name="avatar" type="file"
+                                                           accept="image/*" id="file"
+                                                           onchange="loadFile(event)">
+                                                </p>
+                                                <p><img id="output" width="400"/></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit"
+                                                    class="btn btn-primary bg-gradient waves-effect waves-light">Saqlash
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Hodimlar ro'yxati</h4>
+                            </div><!-- end card header -->
+
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <div class="table-responsive table-card">
+                                        <table class="table align-middle table-nowrap mb-0">
+                                            <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Hodim FIO</th>
+                                                <th scope="col">Telefon</th>
+                                                <th scope="col">Surati</th>
+                                                <th scope="col">Lavozim</th>
+                                                <th scope="col" style="width: 150px;">Amallar</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for staff in staffes %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ staff.full_name }}</td>
+                                                    <td>{{ staff.phone_number }}</td>
+                                                    {% if staff.avatar %}
+                                                        <td><a href="{{ staff.avatar.url }}">Ko'rish</a></td>
+                                                    {% else %}
+                                                        <td>Surat mavjud emas</td>
+                                                    {% endif %}
+                                                    <td>{{ staff.role }}</td>
+                                                    <td>
+                                                        <a href="/update-staff/{{ staff.id }}"
+                                                           class="btn btn-success bg-gradient waves-effect waves-light"><i
+                                                                class=" ri-edit-2-line"></i>
+                                                        </a>
+                                                        <a href="/delete-staff/{{ staff.id }}"
+                                                           class="btn btn-danger bg-gradient waves-effect waves-light"
+                                                           onclick="return confirm('Siz rostdan ham o\'chirmoqchimisiz?')"
+                                                        ><i
+                                                                class=" ri-delete-bin-fill"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <nav aria-label="...">
+                                            <ul class="pagination">
+                                                {% if staffes.has_previous %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="/staff/?page=1">Birinchi</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a href="/staff/?page={{ staffes.previous_page_number }}"
+                                                           class="page-link">Dastlabki</a>
+                                                    </li>
+                                                {% endif %}
+
+                                                </li>
+                                                {% for n in total_pages %}
+                                                    <li class="page-item {% if staffes.number == n %}active{% endif %}">
+                                                        <a class="page-link"
+                                                           href="/staff/?page={{ n }}">{{ n }}</a></li>
+                                                {% endfor %}
+                                                {% if staffes.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="/staff/?page={{ staffes.next_page_number }}">Keyingi</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block script %}
+        <script>
+            var loadFile = function (event) {
+                var image = document.getElementById('output');
+                image.src = URL.createObjectURL(event.target.files[0]);
+            };
+        </script>
+    {% endblock %}
+{% endblock %}

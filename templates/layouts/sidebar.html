@@ -1,0 +1,104 @@
+{% load static %}
+<div class="app-menu navbar-menu">
+    <!-- LOGO -->
+    <div class="navbar-brand-box">
+        <!-- Dark Logo-->
+        <a href="/" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="{% static '' %}assets/images/logo-sm.png" alt="" height="22">
+                    </span>
+            <span class="logo-lg">
+                        <img src="{% static '' %}assets/images/logo-dark.png" alt="" height="17">
+                    </span>
+        </a>
+        <!-- Light Logo-->
+        <a href="/" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="{% static '' %}assets/images/logo-sm.png" alt="" height="22">
+                    </span>
+            <span class="logo-lg">
+                        <img src="{% static '' %}assets/images/logo-light.png" alt="" height="17">
+                    </span>
+        </a>
+        <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+                id="vertical-hover">
+            <i class="ri-record-circle-line"></i>
+        </button>
+    </div>
+
+    <div id="scrollbar">
+        <div class="container-fluid">
+
+            <div id="two-column-menu">
+            </div>
+            <ul class="navbar-nav" id="navbar-nav">
+                <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="/" role="button"
+                       aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
+                    </a>
+                </li> <!-- end Dashboard Menu -->
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{% url 'offer' %}" role="button"
+                       aria-expanded="false" aria-controls="sidebarApps">
+                        <i class="ri-apps-2-line"></i> <span data-key="t-apps">Takliflar</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{% url 'complaint' %}" role="button"
+                       aria-expanded="false" aria-controls="sidebarLayouts">
+                        <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Shikoyatlar</span>
+                    </a>
+                </li> <!-- end Dashboard Menu -->
+
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{% url 'products' %}" role="button"
+                       aria-expanded="false" aria-controls="sidebarAuth">
+                        <i class=" bx bx-cart"></i> <span data-key="t-authentication">Mahsulotlar</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{% url 'staff' %}" role="button"
+                       aria-expanded="false" aria-controls="sidebarPages">
+                        <i class="bx bx-group"></i> <span data-key="t-pages">Hodimlar</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{% url 'deliverer' %}" role="button"
+                       aria-expanded="false" aria-controls="sidebarPages">
+                        <i class=" las la-shipping-fast"></i> <span data-key="t-pages">Yetkazib Beruvchilar</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{% url 'photos' %}">
+                        <i class=" bx bx-image-alt"></i> <span data-key="t-landing">Suratlar</span>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{% url 'poll' %}" role="button"
+                       aria-expanded="false" aria-controls="sidebarUI">
+                        <i class="ri-pencil-ruler-2-line"></i> <span data-key="t-base-ui">So'rovnomalar</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{% url 'ads' %}" role="button"
+                       aria-expanded="false" aria-controls="sidebarAdvanceUI">
+                        <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Reklama yuborish</span>
+
+                    </a>
+                </li>
+
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>
