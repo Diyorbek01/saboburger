@@ -1,4 +1,5 @@
 from time import sleep
+import time
 from django.contrib import messages, auth
 import requests
 from django.contrib.auth import logout
@@ -9,7 +10,7 @@ from django.core.paginator import Paginator
 # Create your views here.
 from main.models import Staff, Poll, ProductCategory, Product, Offer, Variant, PollResult, TgUser, Photos
 
-BOT_TOKEN = "5479684297:AAFhyARMquNP9KRAs6swGvwXIOAQqrlp6Zk"
+BOT_TOKEN = "5479684297:AAGlqYSVymaRrohMiNL3nZbEQRxFJS0uln0"
 URL = f"https://api.telegram.org/bot{BOT_TOKEN}/"
 GET_PATH_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/getFile?file_id="
 SEND_MESSAGE_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?"
@@ -422,6 +423,7 @@ def ads(request):
                     response = requests.request('GET', url)
             except Exception as e:
                 print(e)
+            time.sleep(0.5)
         redirect('/ads')
     return render(request, 'ads.html')
 
@@ -468,7 +470,6 @@ def login(request):
                 messages.info(request, "Login yoki parol xato!")
                 return redirect('/login')
         except:
-            print("except")
             messages.info(request, "Login yoki parol xato!")
             return redirect('/login')
     return render(request, "login.html")
