@@ -3,11 +3,11 @@
 {% block content %}
     {% block style %}
         <style>
-        .page_di:active{
-            color: #0a0c0d;
-        }
+            .page_di:active {
+                color: #0a0c0d;
+            }
         </style>
-        {% endblock %}
+    {% endblock %}
     <div class="main-content">
 
         <div class="page-content">
@@ -25,10 +25,11 @@
                                 </select>
                             </div><!-- end card header -->
 
+                            <button id="downloadexcel" class="btn btn-info col-1">Excel</button>
                             <div class="card-body">
                                 <div class="live-preview">
                                     <div class="table-responsive table-card">
-                                        <table class="table align-middle table-nowrap mb-0">
+                                        <table class="table align-middle table-nowrap mb-0" id="example-table">
                                             <thead class="table-light">
                                             <tr>
                                                 <th scope="col">#</th>
@@ -162,5 +163,13 @@
             </div>
         </div>
     </div>
+    <script src="{% static '' %}assets/js/table2excel.js"></script>
 
+    <script>
+        document.getElementById('downloadexcel').addEventListener('click', function () {
+            console.log("hmm")
+            var table2excel = new Table2Excel();
+            table2excel.export(document.querySelectorAll("#example-table"));
+        })
+    </script>
 {% endblock %}

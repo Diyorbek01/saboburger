@@ -17,11 +17,11 @@
                                     <option {% if role_id == 3 %}selected{% endif %} value="3">Hodimlar</option>
                                 </select>
                             </div><!-- end card header -->
-
+                            <button id="downloadexcel" class="btn btn-info col-1">Excel</button>
                             <div class="card-body">
                                 <div class="live-preview">
                                     <div class="table-responsive table-card">
-                                        <table class="table align-middle table-nowrap mb-0">
+                                        <table class="table align-middle table-nowrap mb-0" id="example-table">
                                             <thead class="table-light">
                                             <tr>
                                                 <th scope="col">#</th>
@@ -44,10 +44,14 @@
                                                     <td>{{ offer.tg_user.full_name }}</td>
                                                     <td>{{ offer.tg_user.phone_number }}</td>
                                                     {% if offer.product %}
-                                                        <td><span class="badge badge-soft-success">{{ offer.product.category.name }}</span></td>
+                                                        <td><span
+                                                                class="badge badge-soft-success">{{ offer.product.category.name }}</span>
+                                                        </td>
                                                         <td>{{ offer.product.name }}</td>
                                                     {% else %}
-                                                        <td><span class="badge badge-soft-primary">{% if offer.user.role == "deliverer" %}Yetkazib
+                                                        <td><span
+                                                                class="badge badge-soft-primary">{% if offer.user.role == "deliverer" %}
+                                                            Yetkazib
                                                             beruvchi{% else %}
                                                             {{ offer.user.role.capitalize }}{% endif %}</span></td>
                                                         <td>{{ offer.user.full_name }}</td>
@@ -113,7 +117,7 @@
                                             {% endfor %}
                                             </tbody>
                                         </table>
-                                    <nav aria-label="...">
+                                        <nav aria-label="...">
                                             <ul class="pagination">
                                                 {% if offers.has_previous %}
                                                     <li class="page-item">
@@ -148,5 +152,13 @@
             </div>
         </div>
     </div>
+    <script src="{% static '' %}assets/js/table2excel.js"></script>
 
+    <script>
+        document.getElementById('downloadexcel').addEventListener('click', function () {
+            console.log("hmm")
+            var table2excel = new Table2Excel();
+            table2excel.export(document.querySelectorAll("#example-table"));
+        })
+    </script>
 {% endblock %}

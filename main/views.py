@@ -415,6 +415,7 @@ def ads(request):
                 if image:
                     url = f"{URL}sendPhoto?chat_id={user.tg_id}&caption={desc}&parse_mode=HTML"
                     response = requests.post(url, files={'photo': image})
+                    print(response)
                 elif video:
                     url = f"{URL}sendVideo?chat_id={user.tg_id}&caption={desc}&parse_mode=HTML"
                     response = requests.post(url, files={'video': video})
@@ -423,7 +424,7 @@ def ads(request):
                     response = requests.request('GET', url)
             except Exception as e:
                 print(e)
-            time.sleep(0.5)
+            time.sleep(5)
         redirect('/ads')
     return render(request, 'ads.html')
 
